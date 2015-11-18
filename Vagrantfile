@@ -26,7 +26,7 @@ Vagrant.configure('2') do |config|
   config.vm.network 'private_network', type: 'dhcp'
   config.vm.network 'public_network', dev: 'virbr0', mode: 'bridge', type: 'bridge'
 
-	config.vm.provision 'docker'
+  config.vm.provision 'docker'
 
   config.vm.synced_folder '.', '/home/vagrant/sync', id: 'vagrant-root', type: 'rsync'
 
