@@ -1,0 +1,3 @@
+[submodule "docker-storage-setup"]
+	path = docker-storage-setup
+	url = https://github.com/projectatomic/docker-storage-setup.git
