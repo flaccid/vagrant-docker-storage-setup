@@ -1,5 +1,10 @@
 #!/bin/sh -ex
 
+if vgdisplay | grep dockervg; then
+  echo 'It looks like dockervg volume group already exists, skipping.'
+  exit 0
+fi
+
 # install deps
 yum -y install rpm-build git
 
@@ -52,9 +57,6 @@ systemctl enable docker
 
 # ensure docker is stopped
 systemctl stop docker
-
-# optional, no need to run it again after once-off setup
-# systemctl enable docker-storage-setup
 
 # start the docker-storage-setup service to reconfigure the disk
 # systemctl start docker-storage-setup
