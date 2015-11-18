@@ -39,11 +39,12 @@ Vagrant.configure('2') do |config|
 
   data_disk = './docker-data.vdi'
   config.vm.provider 'virtualbox' do |v|
-		unless File.exist?(data_disk)
-			v.customize ['createhd', '--filename', data_disk, '--size', DATA_DISK_SIZE * 1024]
-		end
+    unless File.exist?(data_disk)
+      v.customize ['createhd', '--filename', data_disk, '--size', DATA_DISK_SIZE * 1024]
+    end
     v.customize ['storageattach', :id, '--storagectl', 'IDE Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', data_disk]
   end
 
   config.vm.provision 'shell', path: 'docker-storage-setup-strap.sh'
+  config.vm.provision 'shell', inline: 'grep docker /etc/group || (sudo groupadd docker && usermod -aG docker vagrant)'
 end
