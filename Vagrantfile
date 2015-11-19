@@ -46,5 +46,5 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision 'shell', path: 'docker-storage-setup-strap.sh'
-  config.vm.provision 'shell', inline: 'grep docker /etc/group || (sudo groupadd docker && usermod -aG docker vagrant)'
+  config.vm.provision 'shell', inline: '(grep docker /etc/group || sudo groupadd docker) && usermod -aG docker vagrant'
 end
