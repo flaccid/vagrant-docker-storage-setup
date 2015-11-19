@@ -1,0 +1,14 @@
+---
+driver:
+  name: vagrant
+  vagrantfiles:
+    - Vagrantfile.rb
+
+provisioner:
+  name: shell
+
+platforms:
+  - name: centos-7.1
+
+suites:
+  - name: default
