@@ -1,9 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby:ff=unix
 
-# the size of the extra disk for docker data (in gigabytes)
-# should be at least 10GB
-DATA_DISK_SIZE = 10
+DOCKER_DISK = {
+  # the size of the extra disk for docker data should be at least 10GB
+  size: 10,
+  file: 'docker-data.vdi',
+  controller: 'IDE Controller'
+}
 
 # default to centos
 box ||= 'centos/7'
@@ -37,14 +40,21 @@ Vagrant.configure('2') do |config|
     config.proxy.enabled = { docker: true }
   end
 
-  data_disk = './docker-data.vdi'
-  config.vm.provider 'virtualbox' do |v|
-    unless File.exist?(data_disk)
-      v.customize ['createhd', '--filename', data_disk, '--size', DATA_DISK_SIZE * 1024]
+  config.vm.provider 'virtualbox' do |vb|
+    unless File.exist?(DOCKER_DISK[:file])
+      vb.customize ['createhd',
+                   '--filename', DOCKER_DISK[:file],
+                   '--size', DOCKER_DISK[:size] * 1024]
     end
-    v.customize ['storageattach', :id, '--storagectl', 'IDE Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', data_disk]
+    vb.customize ['storageattach', :id,
+                 '--storagectl', DOCKER_DISK[:controller],
+                 '--port', 1,
+                 '--device', 0,
+                 '--type',
+                 'hdd',
+                 '--medium', DOCKER_DISK[:file]]
   end
 
-  config.vm.provision 'shell', path: 'docker-storage-setup-strap.sh'
-  config.vm.provision 'shell', inline: '(grep docker /etc/group || sudo groupadd docker) && usermod -aG docker vagrant'
+  config.vm.provision 'shell', path: 'data/docker-storage-setup-strap.sh'
+  config.vm.provision 'shell', inline: '(getent group docker || groupadd docker) && usermod -aG docker vagrant'
 end
