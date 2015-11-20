@@ -1,13 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby:ff=unix
 
-DOCKER_DISK = {
-  # the size of the extra disk for docker data should be at least 10GB
-  size: 10,
-  file: 'docker-data.vdi',
-  controller: 'IDE Controller'
-}
-
 # default to centos
 box ||= 'centos/7'
 
@@ -15,13 +8,12 @@ box ||= 'centos/7'
 box = ENV['box'] if ENV['box']
 box_url = ENV['box_url'] if ENV['box_url']
 
-# consume proxy env if set
-http_proxy = ENV['http_proxy']
-https_proxy = ENV['http_proxy']
-no_proxy = ENV['no_proxy']
-http_proxy ||= false
-https_proxy ||= false
-no_proxy ||= 'localhost,127.0.0.1,.localdomain'
+DOCKER_DISK = {
+  # the size of the extra disk for docker data should be at least 10GB
+  size: 10,
+  file: 'docker-data.vdi',
+  controller: 'IDE Controller'
+}
 
 Vagrant.configure('2') do |config|
   config.vm.box = box
@@ -36,9 +28,9 @@ Vagrant.configure('2') do |config|
                           id: 'vagrant-root', type: 'rsync'
 
   if Vagrant.has_plugin?('vagrant-proxyconf')
-    config.proxy.http     = http_proxy
-    config.proxy.https    = http_proxy
-    config.proxy.no_proxy = no_proxy
+    config.proxy.http     = ENV['http_proxy']
+    config.proxy.https    = ENV['https_proxy']
+    config.proxy.no_proxy = ENV['no_proxy']
     config.proxy.enabled = { docker: true }
   end
 
