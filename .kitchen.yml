@@ -2,7 +2,7 @@
 driver:
   name: vagrant
   vagrantfiles:
-    - Vagrantfile.rb
+    - vagrantfile_kitchen_d.rb
 
 provisioner:
   name: shell
