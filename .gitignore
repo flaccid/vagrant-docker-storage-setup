@@ -1,3 +1,4 @@
 /.vagrant/
-/.kitchen/
+/.kitchen
+/.bundle/
 docker-data.vdi
