@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-[ -e docker-storage-setup-env.sh ] && . docker-storage-setup-env.sh
+[ -e docker-storage-setup-env.sh ] && . ./docker-storage-setup-env.sh
 
 if vgdisplay | grep dockervg; then
   echo 'Looks like the dockervg volume group already exists, skipping.'
