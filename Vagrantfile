@@ -1,31 +1,27 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby:ff=unix
 
-# default to centos
-box ||= 'centos/7'
-
-# allows env overrides for the box
-box = ENV['box'] if ENV['box']
-box_url = ENV['box_url'] if ENV['box_url']
-
 DOCKER_DISK = {
-  # the size of the extra disk for docker data should be at least 10GB
+  # the size of the extra disk for the
+  # docker data should be at least 10GB
   size: 10,
   file: 'docker-data.vdi',
   controller: 'IDE Controller'
 }
 
 Vagrant.configure('2') do |config|
-  config.vm.box = box
-  config.vm.box_url = box_url if box_url
+  config.vm.box = ENV['box'] || 'centos/7'
+  config.vm.box_url = ENV['box_url'] || nil
+
+  # additional networking to support boxes with different capabilities
   config.vm.network 'private_network', type: 'dhcp'
   config.vm.network 'public_network',
                     dev: 'virbr0', mode: 'bridge', type: 'bridge'
 
-  config.vm.provision 'docker'
-
   config.vm.synced_folder '.', '/home/vagrant/sync',
                           id: 'vagrant-root', type: 'rsync'
+
+  config.vm.provision 'docker'
 
   if Vagrant.has_plugin?('vagrant-proxyconf')
     config.proxy.http     = ENV['http_proxy']
@@ -49,6 +45,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision 'shell', path: 'data/docker-storage-setup-strap.sh'
-  config.vm.provision 'shell', inline: '(getent group docker||groupadd docker) \
-                                        && usermod -aG docker vagrant'
+  config.vm.provision 'shell',
+                      inline: '(getent group docker || groupadd docker) && \
+                               usermod -aG docker vagrant'
 end
