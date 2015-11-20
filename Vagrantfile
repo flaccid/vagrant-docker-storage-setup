@@ -44,7 +44,8 @@ Vagrant.configure('2') do |config|
                   '--medium', DOCKER_DISK[:file]]
   end
 
-  config.vm.provision 'shell', path: 'data/docker-storage-setup-strap.sh'
+  config.vm.provision 'shell',
+    inline: 'cd /home/vagrant/sync/data && sh ./docker-storage-setup-strap.sh'
   config.vm.provision 'shell',
                       inline: '(getent group docker || groupadd docker) && \
                                usermod -aG docker vagrant'
