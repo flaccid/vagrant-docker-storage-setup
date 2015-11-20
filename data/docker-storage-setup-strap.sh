@@ -46,9 +46,12 @@ curl -L https://github.com/projectatomic/docker-storage-setup/archive/master.tar
 tar zxvf docker-storage-setup.tar.gz
 cd docker-storage-setup-master
 
-# temp hacks (don't check VG_EXISTS, turn on bash -x)
+# temp hack (don't check VG_EXISTS)
 sed -i'' '315,318 s/^/#/' docker-storage-setup.sh
-sed -i 's%#!/bin/bash%#!/bin/bash -x%g' docker-storage-setup.sh
+
+# turn on bash -x
+[[ "$DOCKER_STORAGE_DEBUG" -eq 1 ]] && \
+  sed -i 's%#!/bin/bash%#!/bin/bash -x%g' docker-storage-setup.sh
 
 # build and install the docker-storage-setup rpm
 mkdir -p /root/rpmbuild/SOURCES
