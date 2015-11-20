@@ -43,16 +43,15 @@ Vagrant.configure('2') do |config|
   config.vm.provider 'virtualbox' do |vb|
     unless File.exist?(DOCKER_DISK[:file])
       vb.customize ['createhd',
-                   '--filename', DOCKER_DISK[:file],
-                   '--size', DOCKER_DISK[:size] * 1024]
+                    '--filename', DOCKER_DISK[:file],
+                    '--size', DOCKER_DISK[:size] * 1024]
     end
     vb.customize ['storageattach', :id,
-                 '--storagectl', DOCKER_DISK[:controller],
-                 '--port', 1,
-                 '--device', 0,
-                 '--type',
-                 'hdd',
-                 '--medium', DOCKER_DISK[:file]]
+                  '--storagectl', DOCKER_DISK[:controller],
+                  '--port', 1,
+                  '--device', 0,
+                  '--type', 'hdd',
+                  '--medium', DOCKER_DISK[:file]]
   end
 
   config.vm.provision 'shell', path: 'data/docker-storage-setup-strap.sh'
