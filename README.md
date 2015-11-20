@@ -21,6 +21,14 @@ YUM_UPDATE=1
 DOCKER_STORAGE_DEBUG=1
 ```
 
+### Important Notes
+
+ - If you are using an aged EL7-based image, make sure the system is up to date i.e. `yum -y update`;
+   It is not uncommon to run into errors related to the disk utils used and their libraries with older versions of packages.
+ - Ensure you have your proxy configured in `/etc/yum.conf` if needing to pull from remote repositories;
+   e.g. `echo "proxy=http://10.0.0.1:8080/" >> /etc/yum.conf` - more work and doc is to be done on proxy support for this project.
+ - If using the strap script with your own image or host, make sure Docker is already installed and working correctly!
+
 ### Test Kitchen
 
 It's probably better to actually run some integration tests after the virtual machine has been provisioned.
