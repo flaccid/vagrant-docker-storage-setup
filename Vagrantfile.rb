@@ -2,7 +2,8 @@
 # vi: set ft=ruby:ff=unix
 
 DOCKER_DISK = {
-  # the size of the extra disk for docker data should be at least 10GB
+  # the size of the extra disk for the
+  # docker data should be at least 10GB
   size: 10,
   file: 'docker-data.vdi',
   controller: 'SATA Controller'
