@@ -27,11 +27,13 @@ Vagrant.configure('2') do |config|
   config.vm.box = box
   config.vm.box_url = box_url if box_url
   config.vm.network 'private_network', type: 'dhcp'
-  config.vm.network 'public_network', dev: 'virbr0', mode: 'bridge', type: 'bridge'
+  config.vm.network 'public_network',
+                    dev: 'virbr0', mode: 'bridge', type: 'bridge'
 
   config.vm.provision 'docker'
 
-  config.vm.synced_folder '.', '/home/vagrant/sync', id: 'vagrant-root', type: 'rsync'
+  config.vm.synced_folder '.', '/home/vagrant/sync',
+                          id: 'vagrant-root', type: 'rsync'
 
   if Vagrant.has_plugin?('vagrant-proxyconf')
     config.proxy.http     = http_proxy
@@ -55,5 +57,6 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision 'shell', path: 'data/docker-storage-setup-strap.sh'
-  config.vm.provision 'shell', inline: '(getent group docker || groupadd docker) && usermod -aG docker vagrant'
+  config.vm.provision 'shell', inline: '(getent group docker||groupadd docker) \
+                                        && usermod -aG docker vagrant'
 end
