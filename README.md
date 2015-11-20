@@ -27,7 +27,7 @@ To re-run the tests when the machine is still active:
 ### Clearing the attached disk manually
 
 Its important that there is no partition scheme on the disk.
-Essentially for a re-test, `/dev/sdb` should not exist in `/proc/partitions`.
+Essentially for a re-test, `/dev/sdb1` should not exist in `/proc/partitions`.
 
 You can wipe the partitions with something like:
 
