@@ -10,6 +10,17 @@ See the scripts located in the `data` directory which are also portable and can 
 
     $ vagrant up
 
+By default `/dev/sdb` will be used and a new volume group named, `dockervg`.
+
+To modify the directives used, create `data/docker-storage-setup-env.local.sh` and place any overrides
+as well as any additional environment variables that may be used by the strap script, e.g.
+
+```
+DEVS=/dev/sdc
+YUM_UPDATE=1
+DOCKER_STORAGE_DEBUG=1
+```
+
 ### Test Kitchen
 
 It's probably better to actually run some integration tests after the virtual machine has been provisioned.
