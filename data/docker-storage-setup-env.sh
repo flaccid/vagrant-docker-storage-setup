@@ -5,4 +5,4 @@
 DEVS=/dev/sdb
 VG=dockervg
 
-[ -e docker-storage-setup-env.local.sh ] && . docker-storage-setup-env.local.sh
+[ -e docker-storage-setup-env.local.sh ] && . ./docker-storage-setup-env.local.sh
