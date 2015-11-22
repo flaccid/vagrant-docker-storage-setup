@@ -16,9 +16,19 @@ To modify the directives used, create `data/docker-storage-setup-env.local.sh` a
 as well as any additional environment variables that may be used by the strap script, e.g.
 
 ```
+# additional docker-storage-setup overrides
 DEVS=/dev/sdc
+
+# used by the strap script
 YUM_UPDATE=1
 DOCKER_STORAGE_DEBUG=1
+
+# docker systemd service
+HTTP_PROXY=http://192.168.43.174:8080/
+NO_PROXY=localhost,127.0.0.0/8,*.evil.corp
+OPTIONS='--selinux-enabled'
+INSECURE_REGISTRY='--insecure-registry registry.evil.corp --insecure-registry 192.168.43.174:5000'
+DOCKER_NETWORK_OPTIONS='--dns-search=evil.corp --dns 10.0.0.1 --dns 10.0.0.2'
 ```
 
 ### Important Notes
